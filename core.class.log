@@ -1,0 +1,149 @@
+[handleMsg]:  {
+  key: {
+    remoteJid: '595995380999@s.whatsapp.net',
+    fromMe: false,
+    id: '3ADB5F3EC267C776898F',
+    participant: undefined
+  },
+  messageTimestamp: 1728350480,
+  pushName: 'Marco',
+  broadcast: false,
+  message: Message {
+    conversation: 'chatBot',
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2,
+      messageSecret: [Uint8Array]
+    }
+  },
+  body: 'chatBot',
+  from: '595995380999'
+}
+[QUEUE_SE_ENVIO]:  {
+  ref: 'ans_03a179f2-a687-4833-8e55-6403f0a3d9a8',
+  keyword: 'key_ab668ee6-ea1d-4981-bb04-9d37022e54ee',
+  answer: '¡Hola! 🙌 Bienvenido/a a Gas Express, tu distribuidora de gas de confianza. Mi nombre es Asistente Gas Express, soy tu asistente virtual, aquí para ayudarte a gestionar tus pedidos de gas de manera rápida y sencilla. 🚚💨',
+  options: {
+    media: null,
+    buttons: [],
+    capture: false,
+    child: null,
+    delay: 1000,
+    idle: null,
+    ref: null,
+    nested: [],
+    keyword: {},
+    callback: true
+  },
+  refSerialize: '5b3732ed4340609c75499c656db818ca'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '595985811199@s.whatsapp.net',
+    fromMe: false,
+    id: '85443A5583423C4CEDB7B971891A50AC',
+    participant: undefined
+  },
+  messageTimestamp: 1728350483,
+  pushName: 'Abog. Mariza Génez Acuña',
+  broadcast: false,
+  message: Message {
+    extendedTextMessage: ExtendedTextMessage {
+      text: 'Espera veo su dirección',
+      previewType: 0,
+      contextInfo: [ContextInfo],
+      inviteLinkGroupTypeV2: 0
+    },
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  body: 'Espera veo su dirección',
+  from: '595985811199'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '595985811199@s.whatsapp.net',
+    fromMe: false,
+    id: '0D98A98D30BEE087DC12D620DAAAA381',
+    participant: undefined
+  },
+  messageTimestamp: 1728350486,
+  pushName: 'Abog. Mariza Génez Acuña',
+  broadcast: false,
+  message: Message {
+    extendedTextMessage: ExtendedTextMessage {
+      text: 'Si',
+      previewType: 0,
+      contextInfo: [ContextInfo],
+      inviteLinkGroupTypeV2: 0
+    },
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2
+    }
+  },
+  body: 'Si',
+  from: '595985811199'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '595995380999@s.whatsapp.net',
+    fromMe: false,
+    id: '3A9B89B8C01CAE3F6ABB',
+    participant: undefined
+  },
+  messageTimestamp: 1728350495,
+  pushName: 'Marco',
+  broadcast: false,
+  message: Message {
+    conversation: 'Marco',
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2,
+      messageSecret: [Uint8Array]
+    }
+  },
+  body: 'Marco',
+  from: '595995380999'
+}
+[QUEUE_SE_ENVIO]:  {
+  ref: 'ans_4069e9b0-c3b8-4de6-8dd8-29464a28eea8',
+  keyword: 'ans_2c7151d6-0c1c-411d-933b-06f511e05144',
+  answer: 'Por favor, ingrese su ruc:',
+  options: {
+    media: null,
+    buttons: [],
+    capture: true,
+    child: null,
+    delay: 0,
+    idle: null,
+    ref: null,
+    nested: [],
+    keyword: {},
+    callback: true
+  },
+  refSerialize: 'aa2904c73f3ff9f74d7681132832a38b'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '595995380999@s.whatsapp.net',
+    fromMe: false,
+    id: '3A54BC02F2D15DD41621',
+    participant: undefined
+  },
+  messageTimestamp: 1728350502,
+  pushName: 'Marco',
+  broadcast: false,
+  message: Message {
+    conversation: '27378338',
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2,
+      messageSecret: [Uint8Array]
+    }
+  },
+  body: '27378338',
+  from: '595995380999'
+}
