@@ -2,26 +2,26 @@
   key: {
     remoteJid: '595995380999@s.whatsapp.net',
     fromMe: false,
-    id: '3A9F3FFF38AEEE2F01FE',
+    id: '3A12BE27C5B77EAD007B',
     participant: undefined
   },
-  messageTimestamp: 1728526637,
+  messageTimestamp: 1728935161,
   pushName: 'Marco',
   broadcast: false,
   message: Message {
-    conversation: 'bot',
+    conversation: 'Chatbot',
     messageContextInfo: MessageContextInfo {
       deviceListMetadata: [DeviceListMetadata],
       deviceListMetadataVersion: 2,
       messageSecret: [Uint8Array]
     }
   },
-  body: 'bot',
+  body: 'Chatbot',
   from: '595995380999'
 }
 [QUEUE_SE_ENVIO]:  {
-  ref: 'ans_4b43ff17-ed3d-489e-95e7-e8bc98cfdab2',
-  keyword: 'key_6b599c08-4634-49bc-be2a-f29b10082a7c',
+  ref: 'ans_732ce2da-1f12-4bd2-aee3-7542cee631b3',
+  keyword: 'key_0deb5f18-92ec-4922-8ea3-fe4374d7245b',
   answer: '__call_action__',
   options: {
     media: null,
@@ -35,286 +35,37 @@
     keyword: {},
     callback: true
   },
-  refSerialize: '0ae448975732e0f2c00eff23a1e1311a'
+  refSerialize: '3e34fb1a5e978e38c892b2df837d1da9'
 }
 [handleMsg]:  {
   key: {
     remoteJid: '595995380999@s.whatsapp.net',
     fromMe: false,
-    id: '3A448DAA050070800D2D',
+    id: '3AABF5CDA56704028F3E',
     participant: undefined
   },
-  messageTimestamp: 1728526651,
+  messageTimestamp: 1728935171,
   pushName: 'Marco',
   broadcast: false,
   message: Message {
-    conversation: '3919305-9',
+    conversation: '16.012.123-4',
     messageContextInfo: MessageContextInfo {
       deviceListMetadata: [DeviceListMetadata],
       deviceListMetadataVersion: 2,
       messageSecret: [Uint8Array]
     }
   },
-  body: '3919305-9',
+  body: '16.012.123-4',
   from: '595995380999'
 }
 [handleMsg]:  {
   key: {
     remoteJid: '595995380999@s.whatsapp.net',
     fromMe: false,
-    id: '3AD4B615D0390BB79457',
+    id: '3AA82F26007B7FB34719',
     participant: undefined
   },
-  messageTimestamp: 1728526665,
-  pushName: 'Marco',
-  broadcast: false,
-  message: Message {
-    conversation: '2',
-    messageContextInfo: MessageContextInfo {
-      deviceListMetadata: [DeviceListMetadata],
-      deviceListMetadataVersion: 2,
-      messageSecret: [Uint8Array]
-    }
-  },
-  body: '2',
-  from: '595995380999'
-}
-[handleMsg]:  {
-  key: {
-    remoteJid: '595995380999@s.whatsapp.net',
-    fromMe: false,
-    id: '3A6B654CCE1043B7995C',
-    participant: undefined
-  },
-  messageTimestamp: 1728526679,
-  pushName: 'Marco',
-  broadcast: false,
-  message: Message {
-    conversation: '2',
-    messageContextInfo: MessageContextInfo {
-      deviceListMetadata: [DeviceListMetadata],
-      deviceListMetadataVersion: 2,
-      messageSecret: [Uint8Array]
-    }
-  },
-  body: '2',
-  from: '595995380999'
-}
-[handleMsg]:  {
-  key: {
-    remoteJid: '595995380999@s.whatsapp.net',
-    fromMe: false,
-    id: '3AE4862F868417290F9A',
-    participant: undefined
-  },
-  messageTimestamp: 1728526685,
-  pushName: 'Marco',
-  broadcast: false,
-  message: Message {
-    conversation: 'boy',
-    messageContextInfo: MessageContextInfo {
-      deviceListMetadata: [DeviceListMetadata],
-      deviceListMetadataVersion: 2,
-      messageSecret: [Uint8Array]
-    }
-  },
-  body: 'boy',
-  from: '595995380999'
-}
-[handleMsg]:  {
-  key: {
-    remoteJid: '595995380999@s.whatsapp.net',
-    fromMe: false,
-    id: '3A8599262E7DB4509B47',
-    participant: undefined
-  },
-  messageTimestamp: 1728526689,
-  pushName: 'Marco',
-  broadcast: false,
-  message: Message {
-    conversation: 'bot',
-    messageContextInfo: MessageContextInfo {
-      deviceListMetadata: [DeviceListMetadata],
-      deviceListMetadataVersion: 2,
-      messageSecret: [Uint8Array]
-    }
-  },
-  body: 'bot',
-  from: '595995380999'
-}
-[QUEUE_SE_ENVIO]:  {
-  ref: 'ans_4b43ff17-ed3d-489e-95e7-e8bc98cfdab2',
-  keyword: 'key_6b599c08-4634-49bc-be2a-f29b10082a7c',
-  answer: '__call_action__',
-  options: {
-    media: null,
-    buttons: [],
-    capture: false,
-    child: null,
-    delay: 0,
-    idle: null,
-    ref: null,
-    nested: [],
-    keyword: {},
-    callback: true
-  },
-  refSerialize: '0ae448975732e0f2c00eff23a1e1311a'
-}
-[handleMsg]:  {
-  key: {
-    remoteJid: '595995380999@s.whatsapp.net',
-    fromMe: false,
-    id: '3A9FA85CC3C152EB057F',
-    participant: undefined
-  },
-  messageTimestamp: 1728526702,
-  pushName: 'Marco',
-  broadcast: false,
-  message: Message {
-    conversation: '123456789-0',
-    messageContextInfo: MessageContextInfo {
-      deviceListMetadata: [DeviceListMetadata],
-      deviceListMetadataVersion: 2,
-      messageSecret: [Uint8Array]
-    }
-  },
-  body: '123456789-0',
-  from: '595995380999'
-}
-[handleMsg]:  {
-  key: {
-    remoteJid: '595995380999@s.whatsapp.net',
-    fromMe: false,
-    id: '3ABA7EA50EB296F08920',
-    participant: undefined
-  },
-  messageTimestamp: 1728526715,
-  pushName: 'Marco',
-  broadcast: false,
-  message: Message {
-    conversation: 'Luis Carlos Lopez',
-    messageContextInfo: MessageContextInfo {
-      deviceListMetadata: [DeviceListMetadata],
-      deviceListMetadataVersion: 2,
-      messageSecret: [Uint8Array]
-    }
-  },
-  body: 'Luis Carlos Lopez',
-  from: '595995380999'
-}
-[handleMsg]:  {
-  key: {
-    remoteJid: '595995380999@s.whatsapp.net',
-    fromMe: false,
-    id: '3A4DC25E7D27182FE0E6',
-    participant: undefined
-  },
-  messageTimestamp: 1728526728,
-  pushName: 'Marco',
-  broadcast: false,
-  message: Message {
-    conversation: '1',
-    messageContextInfo: MessageContextInfo {
-      deviceListMetadata: [DeviceListMetadata],
-      deviceListMetadataVersion: 2,
-      messageSecret: [Uint8Array]
-    }
-  },
-  body: '1',
-  from: '595995380999'
-}
-[handleMsg]:  {
-  key: {
-    remoteJid: '595995380999@s.whatsapp.net',
-    fromMe: false,
-    id: '3AF60D8995A09C8B42E9',
-    participant: undefined
-  },
-  messageTimestamp: 1728526737,
-  pushName: 'Marco',
-  broadcast: false,
-  message: Message {
-    conversation: '2',
-    messageContextInfo: MessageContextInfo {
-      deviceListMetadata: [DeviceListMetadata],
-      deviceListMetadataVersion: 2,
-      messageSecret: [Uint8Array]
-    }
-  },
-  body: '2',
-  from: '595995380999'
-}
-[handleMsg]:  {
-  key: {
-    remoteJid: '595995380999@s.whatsapp.net',
-    fromMe: false,
-    id: '3A56CE72E16847C89A95',
-    participant: undefined
-  },
-  messageTimestamp: 1728526762,
-  pushName: 'Marco',
-  broadcast: false,
-  message: Message {
-    conversation: 'san bernardo',
-    messageContextInfo: MessageContextInfo {
-      deviceListMetadata: [DeviceListMetadata],
-      deviceListMetadataVersion: 2,
-      messageSecret: [Uint8Array]
-    }
-  },
-  body: 'san bernardo',
-  from: '595995380999'
-}
-[handleMsg]:  {
-  key: {
-    remoteJid: '595995380999@s.whatsapp.net',
-    fromMe: false,
-    id: '3AF3DF26B96BA2FE14F1',
-    participant: undefined
-  },
-  messageTimestamp: 1728526781,
-  pushName: 'Marco',
-  broadcast: false,
-  message: Message {
-    conversation: 'Calle posadas 123, san bernardo, metropolitano',
-    messageContextInfo: MessageContextInfo {
-      deviceListMetadata: [DeviceListMetadata],
-      deviceListMetadataVersion: 2,
-      messageSecret: [Uint8Array]
-    }
-  },
-  body: 'Calle posadas 123, san bernardo, metropolitano',
-  from: '595995380999'
-}
-[handleMsg]:  {
-  key: {
-    remoteJid: '595995380999@s.whatsapp.net',
-    fromMe: false,
-    id: '3ABB0BA58AD927F5433A',
-    participant: undefined
-  },
-  messageTimestamp: 1728526792,
-  pushName: 'Marco',
-  broadcast: false,
-  message: Message {
-    conversation: '1',
-    messageContextInfo: MessageContextInfo {
-      deviceListMetadata: [DeviceListMetadata],
-      deviceListMetadataVersion: 2,
-      messageSecret: [Uint8Array]
-    }
-  },
-  body: '1',
-  from: '595995380999'
-}
-[handleMsg]:  {
-  key: {
-    remoteJid: '595995380999@s.whatsapp.net',
-    fromMe: false,
-    id: '3A9EEC7E5BAA0E4C4218',
-    participant: undefined
-  },
-  messageTimestamp: 1728526802,
+  messageTimestamp: 1728935177,
   pushName: 'Marco',
   broadcast: false,
   message: Message {
@@ -332,41 +83,88 @@
   key: {
     remoteJid: '595995380999@s.whatsapp.net',
     fromMe: false,
-    id: '3A7C67793187EDCAA051',
+    id: '3A5537B1BE8BE028FBFC',
     participant: undefined
   },
-  messageTimestamp: 1728526846,
+  messageTimestamp: 1728935194,
   pushName: 'Marco',
   broadcast: false,
   message: Message {
-    conversation: 'Cual es el horario de atención? Y me podrías decir el precio de los cilindros en la comuna de san bernardo ?',
+    conversation: 'Cuanto están los cilindros en san bernardo ?',
     messageContextInfo: MessageContextInfo {
       deviceListMetadata: [DeviceListMetadata],
       deviceListMetadataVersion: 2,
       messageSecret: [Uint8Array]
     }
   },
-  body: 'Cual es el horario de atención? Y me podrías decir el precio de los cilindros en la comuna de san bernardo ?',
+  body: 'Cuanto están los cilindros en san bernardo ?',
+  from: '595995380999'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '595986482352@s.whatsapp.net',
+    fromMe: false,
+    id: '3DB0C75241CF62893CBBCFCD7D0EC821',
+    participant: undefined
+  },
+  messageTimestamp: 1728935208,
+  pushName: 'No Cancelo  Pedido',
+  broadcast: false,
+  message: Message {
+    extendedTextMessage: ExtendedTextMessage {
+      text: 'Porque nadie luego  se queire hacer cargo del niño  ,y le dije que yo me haria Cargo de la nena y ni asi y ahi sigue la nena siempre a pura garroteada',
+      previewType: 0,
+      contextInfo: [ContextInfo],
+      inviteLinkGroupTypeV2: 0
+    },
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2,
+      messageSecret: [Uint8Array]
+    }
+  },
+  body: 'Porque nadie luego  se queire hacer cargo del niño  ,y le dije que yo me haria Cargo de la nena y ni asi y ahi sigue la nena siempre a pura garroteada',
+  from: '595986482352'
+}
+[handleMsg]:  {
+  key: {
+    remoteJid: '595995380999@s.whatsapp.net',
+    fromMe: false,
+    id: '3A7BDB3A1F51F0AE3105',
+    participant: undefined
+  },
+  messageTimestamp: 1728935280,
+  pushName: 'Marco',
+  broadcast: false,
+  message: Message {
+    conversation: 'Quiero hacer un pedido',
+    messageContextInfo: MessageContextInfo {
+      deviceListMetadata: [DeviceListMetadata],
+      deviceListMetadataVersion: 2,
+      messageSecret: [Uint8Array]
+    }
+  },
+  body: 'Quiero hacer un pedido',
   from: '595995380999'
 }
 [handleMsg]:  {
   key: {
     remoteJid: '595995380999@s.whatsapp.net',
     fromMe: false,
-    id: '3AE22FBF6481124F001F',
+    id: '3A25147D55C7FD6D3AA8',
     participant: undefined
   },
-  messageTimestamp: 1728526883,
+  messageTimestamp: 1728935291,
   pushName: 'Marco',
   broadcast: false,
   message: Message {
-    conversation: 'Los precios en las condes me podrías decir ?',
+    conversation: 'San bernardo',
     messageContextInfo: MessageContextInfo {
       deviceListMetadata: [DeviceListMetadata],
       deviceListMetadataVersion: 2,
       messageSecret: [Uint8Array]
     }
   },
-  body: 'Los precios en las condes me podrías decir ?',
+  body: 'San bernardo',
   from: '595995380999'
 }

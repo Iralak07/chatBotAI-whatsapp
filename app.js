@@ -5,17 +5,11 @@ const QRPortalWeb = require('@bot-whatsapp/portal')
 const BaileysProvider = require('@bot-whatsapp/provider/baileys')
 const PostgreSQLAdapter = require('@bot-whatsapp/database/postgres')
 const { delay } = require('@whiskeysockets/baileys')
-const { chat } = require('./openia')
+const { chat, chatDeterminar } = require('./openia')
 
 /**
  * Declaramos las conexiones de PostgreSQL
  */
-
-const POSTGRES_DB_HOST = 'localhost'
-const POSTGRES_DB_USER = 'postgres'
-const POSTGRES_DB_PASSWORD = '3919305001'
-const POSTGRES_DB_NAME = 'chatbotia'
-const POSTGRES_DB_PORT = '5432'
 //// Inicio de flujo de trabajo /////
 
 
@@ -46,44 +40,55 @@ const flujoOpciones = addKeyword(EVENTS.ACTION)
                 case '4':
                     return ctxFn.gotoFlow(flujoEstado)
                 case '5':
-                    return ctxFn.gotoFlow(flujoChatGPT)
+                    return ctxFn.gotoFlow(flujoChatGPTInicial)
             }
         }   
     )
 
 
-const flujoIncial = addKeyword('bot', { sensitive: true })
+const flujoIncial = addKeyword('Chatbot', { sensitive: true })
     .addAction(async (ctx, ctxFn) => {
         return ctxFn.gotoFlow(flujoBienvenida)
     })
 
-const flujoBienvenida = addKeyword(EVENTS.ACTION)
-    .addAnswer('¡Hola! 🙌 Bienvenido/a a *Gas Express*, soy tu asistente virtual.',
+    const flujoBienvenida = addKeyword(EVENTS.ACTION)
+    .addAnswer('👋 ¡Hola! Bienvenido/a a *Gas Express*, tu asistente virtual está aquí para ayudarte.', 
         { delay: 1000 }
     )
-    .addAnswer('Por favor, ingrese su número de *RUT* con guion y dígito verificador. \n\n' +
-        'Ejemplo: *12345678-9*',
+    .addAnswer('🔑 Por favor, ingresa tu número de *RUT* con guion y dígito verificador. \n\n' +
+        'Ejemplo: *16.012.123-4*',
         { capture: true },
         async (ctx, ctxFn) => {
-            const rut = ctx.body
-            const query = `SELECT * FROM userbot WHERE ruc = '${rut}'`
-            const user = await adapterDB.db.query(query)
+            const rut = ctx.body.trim(); // Eliminar espacios adicionales, si los hubiera
+            const rutRegex = /^[0-9]{1,2}\.[0-9]{3}\.[0-9]{3}-[0-9Kk]{1}$/;
+            const rutValido = rutRegex.test(rut);
+            if (!rutValido) {
+                return ctxFn.fallBack('Por favor, ingresa tu número de *RUT* con guion y dígito verificador. \n\n' +
+                    'Ejemplo: *16.012.123-4*');
+            }
+            const query = `SELECT * FROM userbot WHERE ruc = '${rut}'`;
+            const user = await adapterDB.db.query(query);
 
-            if (!user.rows[0]) {
-                await ctxFn.flowDynamic('⚠️ *Usuario no registrado*')
-                await ctxFn.state.update({ rut: rut })
-                return ctxFn.gotoFlow(flujoNombreUsario)
+            if (!user.rows.length) {
+                await ctxFn.flowDynamic('⚠️ *Aun no te encuentras registrado*.');
+                await ctxFn.state.update({ rut });
+                return ctxFn.gotoFlow(flujoNombreUsario);
             }
 
-            await ctxFn.state.update({ rut: rut })
-            await ctxFn.state.update({ nombre: user.rows[0].fullname })
-            await ctxFn.state.update({ comuna: user.rows[0].comuna })
-            await ctxFn.state.update({ direccion: user.rows[0].direccion })
+            // Actualizar estado del usuario
+            await ctxFn.state.update({ 
+                rut, 
+                nombre: user.rows[0].fullname, 
+                comuna: user.rows[0].comuna, 
+                direccion: user.rows[0].direccion 
+            });
 
-            await ctxFn.flowDynamic(`Hola *${ctxFn.state.get('nombre')}* 😀`)
-            await ctxFn.gotoFlow(flujoOpciones)
+            // Saludar al usuario registrado
+            await ctxFn.flowDynamic(`Hola *${ctxFn.state.get('nombre')}* 😀, encantado/a de ayudarte.`);
+            await ctxFn.gotoFlow(flujoOpciones);
         }
-    )
+    );
+
 
 
 //////////////////////////////   Registro de usuario ////////////////////////////////////////////////////////////////
@@ -110,15 +115,16 @@ Aceptación de Términos y Condiciones:
     Al momento del registro, el chatbot solicitará al usuario que acepte los Términos y Condiciones (TOS).
 */
 const flujoTerminosCondiciones = addKeyword(EVENTS.ACTION)
-    .addAnswer('*Aceptación de Términos y Condiciones:*\n\n' +
-        '👉 Autorizo el tratamiento de mis datos personales con la finalidad de prestar servicios con fines estadísticos, de marketing, comunicar ofertas y promociones, y con el objeto de entregar información y/o beneficios de Gas Express. Este contacto podrá ser telefónico, mensaje de texto, correo electrónico o WhatsApp. Los datos podrán, en casos concretos, ser comunicados a terceros para cumplir con las finalidades mencionadas.\n\n' +
-        'Para continuar con el registro, por favor acepte los siguientes T&C.\n\n' +
+    .addAnswer('*Aceptación de Términos y Condiciones:*')
+    .addAnswer('👉 Autorizo el tratamiento de mis datos personales con la finalidad de prestar servicios con fines estadísticos, de marketing, comunicar ofertas y promociones, y con el objeto de entregar información y/o beneficios de Gas Express. Este contacto podrá ser telefónico, mensaje de texto, correo electrónico o WhatsApp. Los datos podrán, en casos concretos, ser comunicados a terceros para cumplir con las finalidades mencionadas.')
+    .addAnswer('Para continuar con el registro, por favor acepte los siguientes T&C.') 
+    .addAnswer(
         'Ingrese *1* para aceptar los T&C. ✅\n' +
         'Ingrese *2* para rechazar los T&C. ❌\n',
         { 
             delay: 1000, 
             capture: true,
-        },
+        },    
         async (ctx, ctxFn) => {
             const opciones = ['1', '2']
             if (!opciones.includes(ctx.body)) {
@@ -137,9 +143,10 @@ const flujoTerminosCondiciones = addKeyword(EVENTS.ACTION)
 
 
 const flujoOpcionUbicacion = addKeyword(EVENTS.ACTION)
-    .addAnswer('¿Cómo deseas proporcionar tu dirección?\n\n' +
-        'Ingrese *1* para enviar por GPS 📍\n' +
-        'Ingrese *2* para escribirla manualmente ✍️\n',
+    .addAnswer(
+        '¿Cómo deseas proporcionar tu dirección?\n\n' +
+        '📍 Ingrese *1* para enviar por GPS\n' +
+        '✍️ Ingrese *2* para escribirla manualmente\n',
         { 
             delay: 1000,
             capture: true,
@@ -147,10 +154,13 @@ const flujoOpcionUbicacion = addKeyword(EVENTS.ACTION)
         async (ctx, ctxFn) => {
             const opciones = ['1', '2']
             if (!opciones.includes(ctx.body)) {
-                return ctxFn.fallBack('⚠️ Por favor, ingrese una opción válida.\n' +
-                    'Ingrese *1* para enviar por GPS 📍\n' +
-                    'Ingrese *2* para escribirla manualmente ✍️\n')
+                return ctxFn.fallBack(
+                    '⚠️ *Opción inválida.*\n\n' +
+                    '📍 Ingrese *1* para enviar por GPS\n' +
+                    '✍️ Ingrese *2* para escribirla manualmente\n'
+                )
             }
+
             switch (ctx.body) {
                 case '1':
                     return ctxFn.gotoFlow(flujoUbicacionGPS)
@@ -161,7 +171,23 @@ const flujoOpcionUbicacion = addKeyword(EVENTS.ACTION)
     )
 
 const flujoUbicacionGPS = addKeyword(EVENTS.ACTION)
-    .addAnswer('Escribe tu dirección completa. Ejemplo: *HOLANDA 5698, PROVIDENCIA, Región METROPOLITANA*')
+    .addAnswer('Por favor, seleccione su ubicación en el mapa. 📍')
+    .addAnswer('Una vez seleccionado, envianos.', null, async (ctx, ctxFn) => {
+        return ctxFn.gotoFlow(flujoRecibirGPS)
+    })
+
+const flujoRecibirGPS = addKeyword(EVENTS.ACTION)
+    .addAction({capture: true}, async (ctx, ctxFn) => {
+        if(ctx?.message.locationMessage?.degreesLatitude && ctx?.message.locationMessage?.degreesLongitude) {
+            const lat = ctx.message.locationMessage.degreesLatitude
+            const lon = ctx.message.locationMessage.degreesLongitude
+            const comuna = 'Las Condes'
+            await ctxFn.state.update({ comuna: comuna })
+            await ctxFn.state.update({ latitude: lat, longitude: lon })
+            return ctxFn.gotoFlow(flujoDireccionUsuario)
+        }
+        return ctxFn.fallBack('⚠️ Por favor, seleccione su ubicación en el mapa. 📍')
+    })
 
 const flujoUbicacionManual = addKeyword(EVENTS.ACTION)
     .addAnswer('¿Cuál es tu comuna?', {
@@ -208,27 +234,36 @@ const flujoConfirmarDatos = addKeyword(EVENTS.ACTION)
     })
 
 const flujoConfirmarRegistro = addKeyword(EVENTS.ACTION)
-    .addAnswer('✅ Confirmar registro de usuario:\n\n' +
-        'Seleccione *1* para confirmar. ✅\n' +
-        'Seleccione *2* para rechazar. ❌\n',
+    .addAnswer('✅ *Confirmar registro de usuario:*\n\n' +
+        'Seleccione:\n\n' +
+        '1️⃣  *Confirmar registro.* ✅\n' +
+        '2️⃣  *Modificar registro.* ❌\n',
         {
             capture: true,
         },
         async (ctx, ctxFn) => {
             const opciones = ['1', '2']
+            
+            // Validación de opciones
             if (!opciones.includes(ctx.body)) {
-                return ctxFn.fallBack('⚠️ Opción inválida. Seleccione *1* para confirmar. ✅\n' +
-                    'Seleccione *2* para rechazar. ❌\n')
+                return ctxFn.fallBack(
+                    '⚠️ *Opción inválida.*\n\n' +
+                    'Seleccione:\n' +
+                    '1️⃣  *Confirmar registro.* ✅\n' +
+                    '2️⃣  *Modificar registro.* ❌\n'
+                );
             }
+
+            // Control de flujo según opción seleccionada
             switch (ctx.body) {
                 case '1':
-                    return ctxFn.gotoFlow(flujoGuardarRegistro)
+                    return ctxFn.gotoFlow(flujoGuardarRegistro);
                 case '2':
-                    await ctxFn.flowDynamic('¡Hasta pronto! 👋')
-                    return ctxFn.endFlow()
+                    return ctxFn.gotoFlow(flujoOpcionUbicacion);
             }
         }
-    )
+    );
+
 
 const flujoGuardarRegistro = addKeyword(EVENTS.ACTION)
     .addAnswer('Registrando usuario... ⏳', 
@@ -251,11 +286,7 @@ const flujoGuardarRegistro = addKeyword(EVENTS.ACTION)
         }
     )
 
-
-
 ////////////////////////////////// fin registro de usuarios //////////////////////////////////
-
-
 
 
 
@@ -410,12 +441,12 @@ Opción 3: Consulta de Precios:
 */
 
 const flujoConsultaPrecios = addKeyword(EVENTS.ACTION)
-    .addAction(async (ctx, { flowDynamic, gotoFlow, state }) => {
+    .addAnswer('🔍 Buscando precios...', null, async (ctx, { flowDynamic, gotoFlow, state }) => {
         // Obtener la comuna registrada del usuario (ejemplo con San Bernardo y Las Condes)
         const comuna = state.get('comuna');
         await flowDynamic([
             {
-                body: `📍 *Comuna registrada*: ${comuna}.`
+                body: `📍 *Comuna registrada*: ${comuna}.\n`
             },
             {
                 body: comuna === 'San Bernardo'
@@ -423,16 +454,42 @@ const flujoConsultaPrecios = addKeyword(EVENTS.ACTION)
                       '🔹 5 kg: *$13.050*\n' +
                       '🔹 11 kg: *$18.300*\n' +
                       '🔹 15 kg: *$27.450*\n' +
-                      '🔹 45 kg: *$77.550*\n\n'
+                      '🔹 45 kg: *$77.550*\n\n' +
+                      '✨ ¡Precios exclusivos por WhatsApp!'
                     : '💰 *Precios de cilindros en Las Condes:*\n\n' +
                       '🔹 5 kg: *$13.500*\n' +
                       '🔹 11 kg: *$18.700*\n' +
                       '🔹 15 kg: *$28.000*\n' +
-                      '🔹 45 kg: *$78.000*\n\n'
+                      '🔹 45 kg: *$78.000*\n\n' +
+                      '✨ ¡Precios exclusivos por WhatsApp!'
             }
         ]);
-        return gotoFlow(flujoCilindros);
-    })
+        return gotoFlow(flujoContinuarPrecios);
+    });
+
+const flujoContinuarPrecios = addKeyword(EVENTS.ACTION)
+    .addAnswer(
+        '🚚 ¿Te gustaría realizar un pedido?\n\n' +
+        'Selecciona:\n' +
+        '1️⃣ *Realizar un pedido*\n' +
+        '2️⃣ *Volver al menú principal*\n',
+        { capture: true, delay: 1000 },
+        async (ctx, ctxFn) => {
+            const opciones = ['1', '2'];
+            if (!opciones.includes(ctx.body)) {
+                return ctxFn.fallBack('⚠️ Por favor, selecciona una opción válida.\n\n' +
+                    '1️⃣ *Realizar un pedido*\n' +
+                    '2️⃣ *Volver al menú principal*\n');
+            }
+
+            if (ctx.body === '1') {
+                return ctxFn.gotoFlow(flujoCilindros);
+            } else {
+                return ctxFn.gotoFlow(flujoContinuar);
+            }
+        }
+    );
+
 
 
 /* 
@@ -463,35 +520,71 @@ const flujoEstado = addKeyword(EVENTS.ACTION)
         const comuna = state.get('comuna');
         await flowDynamic([
             {
-                body: `📍 *Comuna registrada*: ${comuna}.` + `*Estado del Pedido*: ${ estado[0]}.`,
+                body: `📍 *Comuna registrada*: ${comuna}.`,
+            },
+            {
+                body: `🚚 *Estado del Pedido*: ${ estado[0]}..`,
             }
         ]);
         return gotoFlow(flujoContinuar);
     })
 
 // FLUJO CHAT GPT
+const flujoChatGPTInicial = addKeyword(EVENTS.ACTION)
+    .addAction(async (ctx, { flowDynamic, gotoFlow, state }) => {
+        const saludoInicial = 'Hola'
+        const nuevaHistoria = state.getMyState()?.historia ?? [];
+        const nombre = state.get('nombre') ?? '';
+        nuevaHistoria.push({
+            role: 'user',
+            content: saludoInicial
+        })
+
+        const ia = await chat(nombre, nuevaHistoria);
+
+        nuevaHistoria.push({
+            role: 'assistant',
+            content: ia
+        })
+
+    
+        await flowDynamic(ia);
+        await state.update({historia: nuevaHistoria});
+        return gotoFlow(flujoChatGPT);
+    })
 
 const flujoChatGPT = addKeyword(EVENTS.ACTION)
-    .addAnswer('En que puedo ayudarte?', {
-        delay: 1000,
-    },
-    async (ctx, ctxFn) => {
-        return ctxFn.gotoFlow(flujoChatGPTRespuesta);
-    }
-)
+    .addAction({capture: true},async (ctx, { state, gotoFlow }) => {
+        try {
+            const historia = state.getMyState()?.historia ?? [];
+            const ai = await chatDeterminar(historia);
+            console.log(ai);
+            if(ai.includes('pedir')){
+                return gotoFlow(flujoPedidoGas);
+            }else{
+                return gotoFlow(flujoChatGPTRespuesta);
+            }
+        }catch (error) {
+            console.log(error);
+            return
+        }
+    })
 
 
 const flujoChatGPTRespuesta = addKeyword(EVENTS.ACTION)
-    .addAction({capture: true},async (ctx, { flowDynamic, gotoFlow, state }) => {
-        const nuevaHistoria = state.getMyState()?.histororia ?? [];
+    .addAction(async (ctx, { flowDynamic, gotoFlow, state }) => {
+        const nuevaHistoria = state.getMyState()?.historia ?? [];
         const nombre = state.get('nombre') ?? '';
         nuevaHistoria.push({
             role: 'user',
             content: ctx.body
         })
 
+    
         const ia = await chat(nombre, nuevaHistoria);
-        console.log(ia);
+        if(ia.includes('pedir')){
+            return gotoFlow(flujoPedidoGas);
+        }
         await flowDynamic(ia);
 
         nuevaHistoria.push({
@@ -500,7 +593,7 @@ const flujoChatGPTRespuesta = addKeyword(EVENTS.ACTION)
         })
 
         await state.update({historia: nuevaHistoria});
-        return gotoFlow(flujoChatGPTRespuesta);
+        return gotoFlow(flujoChatGPT);
     })
 
 /// UTILS ///
@@ -512,26 +605,33 @@ const flujoInactividad = addKeyword(EVENTS.ACTION)
 
 
 const flujoContinuar = addKeyword(EVENTS.ACTION)
-    .addAnswer('Escribe *1* para continuar' + 
-        '\nEscribe *2* para cancelar', {
-        capture: true,
-        idle: 50000
-    }
-    , async (ctx, ctxFn) => {
-        if(ctx?.idleFallBack){
-            return ctxFn.gotoFlow(flujoInactividad)
+    .addAnswer(
+        '👉 Escribe *1* para continuar.\n' +
+        '❌ Escribe *2* para cancelar.',
+        {
+            capture: true,
+            idle: 50000
+        },
+        async (ctx, ctxFn) => {
+            // Manejo de inactividad
+            if (ctx?.idleFallBack) {
+                return ctxFn.gotoFlow(flujoInactividad);
+            }
+
+            const opciones = ['1', '2'];
+            if (!opciones.includes(ctx.body)) {
+                return ctxFn.fallBack('⚠️ Por favor, responde con *1* para continuar o *2* para cancelar.');
+            }
+
+            if (ctx.body === '1') {
+                return ctxFn.gotoFlow(flujoOpciones);
+            }
+
+            await ctxFn.flowDynamic('👋 ¡Hasta luego! Gracias por contactarnos.');
+            return ctxFn.endFlow();
         }
-        const opciones = ['1', '2']
-        if (!opciones.includes(ctx.body)) {
-            return ctxFn.fallBack('⚠️ Por favor, responde con *1* para continuar o *2* para cancelar.')
-        }
-        if(ctx.body === '1'){
-            return ctxFn.gotoFlow(flujoOpciones)
-        }
-        await ctxFn.flowDynamic('Hasta luego 👋');
-        return ctxFn.endFlow();
-    }
-)
+    );
+
 
 const main = async () => {
     // const adapterDB = new PostgreSQLAdapter({
@@ -563,14 +663,17 @@ const main = async () => {
         flujoConfirmarDatos,
         flujoConfirmarRegistro,
         flujoGuardarRegistro,
+        flujoRecibirGPS,
 // Cupones
         flujoCupones,
 // Precios
         flujoConsultaPrecios,
+        flujoContinuarPrecios,
 // Estado del Pedido
         flujoEstado,
 
 // ChatGPT
+        flujoChatGPTInicial,
         flujoChatGPT,
         flujoChatGPTRespuesta
         

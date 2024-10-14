@@ -6,6 +6,18 @@ const DATE_BASE = [
     'Los precios para Las Condes son los siguientes: 5 kg: $13.500, 11 kg: $18.700, 15 kg: $28.000, 45 kg: $78.000'
 ].join('\n');
 
+const PROMPT_DETERMINE = `
+Prompt:
+Si el cliente menciona que desea realizar un pedido de cilindro utilizando frases 
+como "hacer un pedido", "quiero pedir", "realizar un pedido", o cualquiera de las siguientes palabras 
+clave: "comprar", "reservar", "ordenar", "solicitar", "encargar", "mandar un cilindro", "enviar gas", "necesito cilindro",
+ responde únicamente con la palabra "pedir" sin agregar ningún otro detalle.
+
+Si el cliente no indica intención de hacer un pedido y solo hace consultas o menciona términos como
+ "precio", "horarios", "consultar", "productos", responde con "undefined" para que el flujo de conversación continúe normalmente.
+
+Recuerda siempre mantener un tono profesional y respetuoso en todas tus respuestas.
+`
 
 const PROMPT = `
 Eres un ejecutivo de ventas virtual para Gas Express, una distribuidora de gas. Tu función es presentarte como el asistente de inteligencia artificial de la empresa y brindar una atención profesional y cordial a nuestros clientes.
@@ -61,6 +73,11 @@ const generarPrompt = (nombre) =>{
     return PROMPT.replaceAll('{nombre}', nombre).replaceAll('{contexto}', DATE_BASE);
 }
 
+const generaPromptDetermine = ()=>{
+    return PROMPT_DETERMINE
+}
+
 module.exports = {
-    generarPrompt
+    generarPrompt,
+    generaPromptDetermine
 }
