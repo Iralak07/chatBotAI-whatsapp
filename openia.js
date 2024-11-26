@@ -3,7 +3,7 @@ const { generarPrompt, generaPromptDetermine } = require("./prompt");
 
 const openai = new OpenAI(
     {
-        apiKey: 'sk-p2GmR_wqA_5oLHrNyF8v0gOGmhFH_of7FnhzzSJkuMT3BlbkFJnJ50T3fykjSxY9967B4te8BuC37p6SdsL4VfGWX-YA',
+        apiKey: '',
     }
 );
 
