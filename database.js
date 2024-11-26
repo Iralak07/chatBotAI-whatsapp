@@ -1,10 +1,10 @@
 const PostgreSQLAdapter = require('@bot-whatsapp/database/postgres')
 
-const POSTGRES_DB_HOST = 'autorack.proxy.rlwy.net'
-const POSTGRES_DB_USER = 'postgres'
-const POSTGRES_DB_PASSWORD = 'BRzQVziCRJfMactzFzWcTcAVDiWYUJhq'
-const POSTGRES_DB_NAME = 'railway'
-const POSTGRES_DB_PORT = '17982'
+const POSTGRES_DB_HOST = ''
+const POSTGRES_DB_USER = ''
+const POSTGRES_DB_PASSWORD = ''
+const POSTGRES_DB_NAME = ''
+const POSTGRES_DB_PORT = ''
 
 const adapterDB = new PostgreSQLAdapter({
     host: POSTGRES_DB_HOST,
