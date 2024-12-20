@@ -11,7 +11,8 @@ const { chat, chatDeterminar } = require('./openia')
  * Declaramos las conexiones de PostgreSQL
  */
 //// Inicio de flujo de trabajo /////
-
+// Flujo de cancelación por inactividad
+;
 
 const flujoOpciones = addKeyword(EVENTS.ACTION)
     .addAnswer('Estas son las opciones que tengo disponibles para ti:\n' +
@@ -57,8 +58,11 @@ const flujoIncial = addKeyword('Chatbot', { sensitive: true })
     )
     .addAnswer('🔑 Por favor, ingresa tu número de *RUT* con guion y dígito verificador. \n\n' +
         'Ejemplo: *16.012.123-4*',
-        { capture: true },
+        { capture: true, idle: 50000 },
         async (ctx, ctxFn) => {
+            if(ctx?.idleFallBack){
+                return ctxFn.gotoFlow(flujoInactividad)
+            }
             const rut = ctx.body.trim(); // Eliminar espacios adicionales, si los hubiera
             const rutRegex = /^[0-9]{1,2}\.[0-9]{3}\.[0-9]{3}-[0-9Kk]{1}$/;
             const rutValido = rutRegex.test(rut);
@@ -96,9 +100,12 @@ const flujoIncial = addKeyword('Chatbot', { sensitive: true })
 
 const flujoNombreUsario = addKeyword(EVENTS.ACTION)
     .addAnswer('Por favor, ingrese su nombre completo. Ejemplo: *JUAN PEREZ*', {
-        capture: true,
+        capture: true, idle: 50000
     },
     async (ctx, ctxFn) => {
+        if(ctx?.idleFallBack){
+            return ctxFn.gotoFlow(flujoInactividad)
+        }
         const nombre = ctx.body
         if(!nombre){
             return ctxFn.fallBack('Por favor, ingrese su nombre completo. Ejemplo: *JUAN PEREZ*')
@@ -124,8 +131,12 @@ const flujoTerminosCondiciones = addKeyword(EVENTS.ACTION)
         { 
             delay: 1000, 
             capture: true,
+            idle: 50000
         },    
         async (ctx, ctxFn) => {
+            if(ctx?.idleFallBack){
+                return ctxFn.gotoFlow(flujoInactividad)
+            }
             const opciones = ['1', '2']
             if (!opciones.includes(ctx.body)) {
                 return ctxFn.fallBack('⚠️ Opción inválida. Ingrese *1* para aceptar los T&C. ✅\n\n' +
@@ -150,8 +161,12 @@ const flujoOpcionUbicacion = addKeyword(EVENTS.ACTION)
         { 
             delay: 1000,
             capture: true,
+            idle: 50000
         },
         async (ctx, ctxFn) => {
+            if(ctx?.idleFallBack){
+                return ctxFn.gotoFlow(flujoInactividad)
+            }
             const opciones = ['1', '2']
             if (!opciones.includes(ctx.body)) {
                 return ctxFn.fallBack(
@@ -177,7 +192,11 @@ const flujoUbicacionGPS = addKeyword(EVENTS.ACTION)
     })
 
 const flujoRecibirGPS = addKeyword(EVENTS.ACTION)
-    .addAction({capture: true}, async (ctx, ctxFn) => {
+    .addAction({capture: true, idle: 50000}, 
+        async (ctx, ctxFn) => {
+        if(ctx?.idleFallBack){
+                return ctxFn.gotoFlow(flujoInactividad)
+        }
         if(ctx?.message.locationMessage?.degreesLatitude && ctx?.message.locationMessage?.degreesLongitude) {
             const lat = ctx.message.locationMessage.degreesLatitude
             const lon = ctx.message.locationMessage.degreesLongitude
@@ -193,8 +212,12 @@ const flujoUbicacionManual = addKeyword(EVENTS.ACTION)
     .addAnswer('¿Cuál es tu comuna?', {
         delay: 1000,
         capture: true,
+        idle: 50000
     },
     async (ctx, ctxFn) => {
+        if(ctx?.idleFallBack){
+            return ctxFn.gotoFlow(flujoInactividad)
+        }
         const opciones = ['San Bernardo', 'san bernardo', 'Las Condes', 'las condes']
         if (!opciones.includes(ctx.body)) {
             return ctxFn.fallBack('⚠️ La comuna ingresada no es válida.')
@@ -207,8 +230,12 @@ const flujoUbicacionManual = addKeyword(EVENTS.ACTION)
 const flujoDireccionUsuario = addKeyword(EVENTS.ACTION)
     .addAnswer('Por favor, ingrese su dirección completa. Ejemplo: *HOLANDA 5698, PROVIDENCIA, Región METROPOLITANA*', {
         capture: true,
+        idle: 50000
     },
     async (ctx, ctxFn) => {
+        if(ctx?.idleFallBack){
+            return ctxFn.gotoFlow(flujoInactividad)
+        }
         const direccion = ctx.body
         if (!direccion) {
             return ctxFn.fallBack('⚠️ Por favor, ingrese su dirección. Ejemplo: *HOLANDA 5698, PROVIDENCIA, Región METROPOLITANA*')
@@ -232,7 +259,6 @@ const flujoConfirmarDatos = addKeyword(EVENTS.ACTION)
         ])
         return ctxFn.gotoFlow(flujoConfirmarRegistro)
     })
-
 const flujoConfirmarRegistro = addKeyword(EVENTS.ACTION)
     .addAnswer('✅ *Confirmar registro de usuario:*\n\n' +
         'Seleccione:\n\n' +
@@ -240,8 +266,12 @@ const flujoConfirmarRegistro = addKeyword(EVENTS.ACTION)
         '2️⃣  *Modificar registro.* ❌\n',
         {
             capture: true,
+            idle: 50000
         },
         async (ctx, ctxFn) => {
+            if(ctx?.idleFallBack){
+                return ctxFn.gotoFlow(flujoInactividad)
+            }
             const opciones = ['1', '2']
             
             // Validación de opciones
@@ -473,8 +503,11 @@ const flujoContinuarPrecios = addKeyword(EVENTS.ACTION)
         'Selecciona:\n' +
         '1️⃣ *Realizar un pedido*\n' +
         '2️⃣ *Volver al menú principal*\n',
-        { capture: true, delay: 1000 },
+        { capture: true, delay: 1000, idle: 50000 },
         async (ctx, ctxFn) => {
+            if(ctx?.idleFallBack){
+                return ctxFn.gotoFlow(flujoInactividad)
+            }
             const opciones = ['1', '2'];
             if (!opciones.includes(ctx.body)) {
                 return ctxFn.fallBack('⚠️ Por favor, selecciona una opción válida.\n\n' +
